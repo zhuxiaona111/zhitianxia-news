@@ -1,6 +1,7 @@
 <template>
   <div>
-主页
+    <van-button plain type="primary">朴素按钮</van-button>
+    <van-button plain type="info">朴素按钮</van-button>
   </div>
 </template>
 
