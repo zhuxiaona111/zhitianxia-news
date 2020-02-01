@@ -1,12 +1,12 @@
 <template>
   <div>
-    文章
+    对话
   </div>
 </template>
 
 <script>
 export default {
-  name: 'article'
+  name: 'chat'
 }
 </script>
 
