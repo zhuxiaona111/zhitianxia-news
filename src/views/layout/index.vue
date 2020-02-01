@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <van-nav-bar v-if="showNavBar" fixed title="天天知道" @click-right="$router.push('/search')" right-text="搜索"></van-nav-bar>
+    <van-nav-bar v-if="showNavBar" fixed title="赛诸葛" @click-right="$router.push('/search')" right-text="搜索"></van-nav-bar>
     <!-- div控制定位 -->
     <div class="my-wrapper" :class="{noTop:!showNavBar}">
       <router-view></router-view>
@@ -31,7 +31,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scope>
 .container {
   width: 100%;
   height: 100%;

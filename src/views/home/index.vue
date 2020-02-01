@@ -1,6 +1,5 @@
 <template>
-  <div>
-    主页
+  <div class="container">
   </div>
 </template>
 
@@ -11,4 +10,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
 </style>
