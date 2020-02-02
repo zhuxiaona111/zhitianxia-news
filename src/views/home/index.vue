@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    123455
   </div>
 </template>
 
@@ -10,5 +11,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+.container{
+  padding-top: 50px;
+}
 </style>

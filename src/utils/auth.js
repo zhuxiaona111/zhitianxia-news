@@ -7,5 +7,5 @@ export function getUser () {
   return JSON.parse(localStorage.getItem(USER_TOKEN) || '{}')
 }
 export function delUser () {
-  localStorage.removeItem(USER_TOKEN)
+  return localStorage.removeItem(USER_TOKEN)
 }
