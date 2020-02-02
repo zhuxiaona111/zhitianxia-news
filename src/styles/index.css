@@ -15,7 +15,7 @@ ul {
   font-size: 14px;
 }
 .van-nav-bar {
-  background: #e1251b;
+  background: linear-gradient(to right, #76baee, #b72bf8);
 }
 .van-nav-bar .van-nav-bar__title {
   color: #fff;
