@@ -41,13 +41,15 @@
 </template>
 
 <script>
+import { login } from '@/api/user'
+import { mapMutations } from 'vuex'
 export default {
   name: 'login',
   data () {
     return {
       userForm: {
-        mobile: 13911111111,
-        code: 246810
+        mobile: '13911111111',
+        code: '246810'
       },
       errorMsg: {
         mobile: '',
@@ -65,7 +67,7 @@ export default {
         this.errorMsg.mobile = '手机号格式错误'
         return false
       }
-      this.errMsg.code = '' // 清空信息
+      this.errorMsg.code = '' // 清空信息
       return true
     },
     checkCode () {
@@ -77,11 +79,19 @@ export default {
         this.errorMsg.code = '验证码必须是六位'
         return false
       }
-      this.errMsg.code = '' // 清空信息
+      this.errorMsg.code = '' // 清空信息
       return true
     },
-    login () {
-
+    ...mapMutations(['updateUser']),
+    async login () {
+      if (this.checkMobile() && this.checkCode()) {
+        const data = await login(this.userForm)
+        console.log(data)
+        this.updateUser({ user: data })
+        this.$notify({ type: 'success', message: '登陆成功' })
+        let { redirectUrl } = this.$route.query
+        this.$router.push(redirectUrl || '/')
+      }
     }
   }
 }
