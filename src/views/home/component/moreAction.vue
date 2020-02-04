@@ -6,19 +6,23 @@
       <van-cell>拉黑作者</van-cell>
     </van-cell-group>
     <van-cell-group v-else>
-      <van-cell icon="info-o" v-for="item in reports" :key="item.value" @click="isReport=false">{{item.label}}</van-cell>
+      <van-cell icon="info-o" v-for="item in reports" :key="item.value" @click="$emit('report', item.value)">{{item.label}}</van-cell>
     </van-cell-group>
   </div>
 </template>
 
 <script>
 import { reports } from '@/api/constants'
+import eventBus from '@/utils/eventBus'
 export default {
   data () {
     return {
       isReport: false,
       reports
     }
+  },
+  created () {
+    eventBus.$on('delArticle', () => (this.isReport = false)) // 重置状态
   }
 }
 </script>

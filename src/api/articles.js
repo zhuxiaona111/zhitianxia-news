@@ -14,3 +14,11 @@ export function dislikeArt (data) {
     data
   })
 }
+// 举报文章
+export function reportArt (data) {
+  return request({
+    url: '/article/reports',
+    method: 'post',
+    data
+  })
+}
