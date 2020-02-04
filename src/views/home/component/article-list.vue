@@ -20,7 +20,7 @@
             <div class="info_box">
               <span>{{ article.aut_name }}</span>
               <span>{{ article.comm_count }}评论</span>
-              <span>{{ article.pubdate }}</span>
+              <span>{{ article.pubdate | relTime }}</span>
               <span class="close">
                 <van-icon name="cross"></van-icon>
               </span>
@@ -53,13 +53,9 @@ export default {
       default: null
     }
   },
-  created () {
-
-  },
   methods: {
-
     async onLoad () {
-      await this.$sleep()
+      // await this.$sleep()
       let data = await getArticles({ channel_id: this.channel_id, timestamp: this.timestamp || Date.now() })
       console.log(this.timestamp)
       this.articles.push(...data.results)
@@ -72,31 +68,10 @@ export default {
       } else {
         this.finished = true // 没有数据了
       }
-      // console.log('开始加载数据')
-      // setTimeout(() => {
-      //   if (this.articles.length === 50) {
-      //     this.finished = true
-      //   } else {
-      //     let arr = Array.from(
-      //       Array(10),
-      //       (value, index) => index + this.articles.length + 1
-      //     )
-      //     this.articles.push(...arr)
-      //     this.upLoading = false
-      //   }
-      // }, 3000)
     },
     // 下拉刷新方法
     async onRefresh () {
-      await this.$sleep()
-      // 触发下拉刷新
-      // console.log('下拉刷新')
-      // setTimeout(() => {
-      //   let arr = Array.from(Array(10), (value, index) => '追加' + (index + 1))
-      //   this.articles.unshift(...arr) // 将数据添加到队首
-      //   this.downLoading = false // 关掉下拉状态
-      //   this.refreshSuccessText = `更新了${arr.length}条数据`
-      // }, 1000)
+      // await this.$sleep()
       // 下拉刷新永远拉取的是最新的数据
       const data = await getArticles({ channel_id: this.channel_id, timestamp: Date.now() })
       console.log(data)
