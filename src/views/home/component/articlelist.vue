@@ -21,7 +21,7 @@
               <span>{{ article.aut_name }}</span>
               <span>{{ article.comm_count }}评论</span>
               <span>{{ article.pubdate | relTime }}</span>
-              <span class="close" v-if="user.token" @click="$emit('openAction')">
+              <span class="close" v-if="user.token" @click="$emit('openAction',article.art_id.toString())">
                 <van-icon name="cross"></van-icon>
               </span>
             </div>
@@ -64,14 +64,14 @@ export default {
         channel_id: this.channel_id,
         timestamp: this.timestamp || Date.now()
       })
-      console.log(this.timestamp)
+      // console.log(this.timestamp)
       this.articles.push(...data.results)
       // 关闭加载状态
       this.upLoading = false
       if (data.pre_timestamp) {
         // 如果有
         this.timestamp = data.pre_timestamp
-        console.log(this.timestamp)
+        // console.log(this.timestamp)
       } else {
         this.finished = true // 没有数据了
       }
@@ -84,7 +84,7 @@ export default {
         channel_id: this.channel_id,
         timestamp: Date.now()
       })
-      console.log(data)
+      // console.log(data)
       this.downLoading = false // 关掉下拉状态
       // 有可能 最新没有推荐数据
       if (data.results.length) {

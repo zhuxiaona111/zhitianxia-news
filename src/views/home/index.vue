@@ -32,7 +32,8 @@ export default {
       upLoading: false,
       finished: false,
       channels: [],
-      showMoreAction: false
+      showMoreAction: false,
+      articleId: null
     }
   },
   methods: {
@@ -41,8 +42,10 @@ export default {
       // console.log(data)
       this.channels = data.channels
     },
-    openAction () {
+    openAction (artId) {
       this.showMoreAction = true
+      this.articleId = artId
+      console.log(this.articleId)
     }
 
   },
