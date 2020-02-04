@@ -4,23 +4,23 @@
     <van-pull-refresh v-model="downLading" @refresh="onRefresh" :success-text="refreshSuccessText">
       <!-- 实现上拉加载 -->
       <van-list v-model="upLoading" :finished="finished" @load="onLoad">
-        <van-cell v-for="article in articles" :key="article" >
+        <van-cell v-for="article in articles" :key="article.art_id.toString()" >
           <div class="article_item">
-            <h3 class="van-ellipsis">PullRefresh下拉刷新PullRefresh下拉刷新下拉刷新下拉刷新</h3>
+            <h3 class="van-ellipsis">{{article.title}}</h3>
             <!-- 三张图模式 -->
-            <div class="img_box">
-              <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-              <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-              <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+            <div class="img_box" v-if="article.cover.type===3">
+              <van-image class="w33" fit="cover" :src="article.cover.images[0]" />
+              <van-image class="w33" fit="cover" :src="article.cover.images[1]"/>
+              <van-image class="w33" fit="cover" :src="article.cover.images[2]"/>
             </div>
             <!-- 一张图模式 -->
-            <div class="img_box">
-      <van-image class="w100" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg"/>
+            <div class="img_box" v-if="article.cover.type===1">
+      <van-image class="w100" fit="cover" :src="article.cover.images[0]" />
   </div>
             <div class="info_box">
-              <span>你像一阵风</span>
-              <span>8评论</span>
-              <span>10分钟前</span>
+              <span>{{ article.aut_name }}</span>
+              <span>{{ article.comm_count }}评论</span>
+              <span>{{ article.pubdate }}</span>
               <span class="close">
                 <van-icon name="cross"></van-icon>
               </span>
@@ -60,13 +60,14 @@ export default {
 
     async onLoad () {
       let data = await getArticles({ channel_id: this.channel_id, timestamp: this.timestamp || Date.now() })
-      console.log(data)
+      console.log(this.timestamp)
       this.articles.push(...data.results)
       // 关闭加载状态
       this.upLoading = false
       if (data.pre_timestamp) {
         // 如果有
         this.timestamp = data.pre_timestamp
+        console.log(this.timestamp)
       } else {
         this.finished = true // 没有数据了
       }
