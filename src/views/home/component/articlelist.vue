@@ -4,19 +4,19 @@
     <van-pull-refresh v-model="downLoading" @refresh="onRefresh" :success-text="refreshSuccessText">
       <!-- 实现上拉加载 -->
       <van-list v-model="upLoading" :finished="finished" @load="onLoad">
-        <van-cell v-for="article in articles" :key="article.art_id.toString()" >
+        <van-cell v-for="article in articles" :key="article.art_id.toString()">
           <div class="article_item">
             <h3 class="van-ellipsis">{{article.title}}</h3>
             <!-- 三张图模式 -->
             <div class="img_box" v-if="article.cover.type===3">
-              <van-image class="w33" fit="cover" :src="article.cover.images[0]" />
-              <van-image class="w33" fit="cover" :src="article.cover.images[1]"/>
-              <van-image class="w33" fit="cover" :src="article.cover.images[2]"/>
+              <van-image lazy-load class="w33" fit="cover" :src="article.cover.images[0]" />
+              <van-image lazy-load class="w33" fit="cover" :src="article.cover.images[1]" />
+              <van-image lazy-load class="w33" fit="cover" :src="article.cover.images[2]" />
             </div>
             <!-- 一张图模式 -->
             <div class="img_box" v-if="article.cover.type===1">
-      <van-image class="w100" fit="cover" :src="article.cover.images[0]" />
-  </div>
+              <van-image lazy-load class="w100" fit="cover" :src="article.cover.images[0]" />
+            </div>
             <div class="info_box">
               <span>{{ article.aut_name }}</span>
               <span>{{ article.comm_count }}评论</span>
@@ -55,8 +55,11 @@ export default {
   },
   methods: {
     async onLoad () {
-      // await this.$sleep()
-      let data = await getArticles({ channel_id: this.channel_id, timestamp: this.timestamp || Date.now() })
+      await this.$sleep()
+      let data = await getArticles({
+        channel_id: this.channel_id,
+        timestamp: this.timestamp || Date.now()
+      })
       console.log(this.timestamp)
       this.articles.push(...data.results)
       // 关闭加载状态
@@ -73,7 +76,10 @@ export default {
     async onRefresh () {
       // await this.$sleep()
       // 下拉刷新永远拉取的是最新的数据
-      const data = await getArticles({ channel_id: this.channel_id, timestamp: Date.now() })
+      const data = await getArticles({
+        channel_id: this.channel_id,
+        timestamp: Date.now()
+      })
       console.log(data)
       this.downLoading = false // 关掉下拉状态
       // 有可能 最新没有推荐数据
@@ -87,7 +93,7 @@ export default {
         this.timestamp = data.pre_timestamp // 赋值历史时间戳 因为当你下拉刷新之后 上拉加载的时候 要用到这个历史事件戳
         this.refreshSuccessText = `更新了${data.results.length}条数据`
       } else {
-      //  如果没有数据更新  什么都不需要变化
+        //  如果没有数据更新  什么都不需要变化
         this.refreshSuccessText = '已是最新数据'
       }
     }
@@ -96,31 +102,31 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.article_item{
-  h3{
+.article_item {
+  h3 {
     font-weight: normal;
     line-height: 2;
   }
-  .img_box{
+  .img_box {
     display: flex;
     justify-content: space-between;
-    .w33{
+    .w33 {
       width: 33%;
       height: 90px;
     }
-    .w100{
+    .w100 {
       width: 100%;
       height: 180px;
     }
   }
-  .info_box{
+  .info_box {
     color: #999;
     line-height: 2;
     position: relative;
     font-size: 12px;
-    span{
+    span {
       padding-right: 10px;
-      &.close{
+      &.close {
         border: 1px solid #ddd;
         border-radius: 2px;
         line-height: 15px;

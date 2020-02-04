@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import ArticleList from './component/article-list'
+import ArticleList from './component/articlelist'
 import { getChannel } from '@/api/channel'
 export default {
   name: 'home',
