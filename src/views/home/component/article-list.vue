@@ -59,6 +59,7 @@ export default {
   methods: {
 
     async onLoad () {
+      await this.$sleep()
       let data = await getArticles({ channel_id: this.channel_id, timestamp: this.timestamp || Date.now() })
       console.log(this.timestamp)
       this.articles.push(...data.results)
@@ -87,6 +88,7 @@ export default {
     },
     // 下拉刷新方法
     async onRefresh () {
+      await this.$sleep()
       // 触发下拉刷新
       // console.log('下拉刷新')
       // setTimeout(() => {

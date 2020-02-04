@@ -48,7 +48,7 @@ export default {
   data () {
     return {
       userForm: {
-        mobile: '13911111111',
+        mobile: '18810086387',
         code: '246810'
       },
       errorMsg: {
@@ -88,7 +88,7 @@ export default {
         const data = await login(this.userForm)
         console.log(data)
         this.updateUser({ user: data })
-        this.$notify({ type: 'success', message: '登陆成功' })
+        this.$gnotify({ type: 'success', message: '登陆成功' })
         let { redirectUrl } = this.$route.query
         this.$router.push(redirectUrl || '/')
       }
