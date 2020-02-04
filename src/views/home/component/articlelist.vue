@@ -35,6 +35,7 @@
 <script>
 import { getArticles } from '@/api/articles'
 import { mapState } from 'vuex'
+import eventBus from '@/utils/eventBus'
 export default {
   name: 'article-list',
   data () {
@@ -56,6 +57,16 @@ export default {
       type: Number,
       default: null
     }
+  },
+  created () {
+    eventBus.$on('delArticle', (articleId, channelId) => {
+      if (this.channel_id === channelId) {
+        const index = this.articles.findIndex(item => item.art_id.toString() === articleId)
+        if (index > -1) {
+          this.articles.splice(index, 1)
+        }
+      }
+    })
   },
   methods: {
     async onLoad () {
