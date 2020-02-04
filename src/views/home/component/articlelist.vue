@@ -89,7 +89,7 @@ export default {
     },
     // 下拉刷新方法
     async onRefresh () {
-      // await this.$sleep()
+      await this.$sleep()
       // 下拉刷新永远拉取的是最新的数据
       const data = await getArticles({
         channel_id: this.channel_id,

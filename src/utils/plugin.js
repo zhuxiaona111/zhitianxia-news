@@ -12,7 +12,7 @@ export default {
     Vue.filter('relTime', relTime)
   }
 }
-function sleep (time = 500) {
+function sleep (time = 3000) {
   return new Promise(function (resolve, reject) {
     setTimeout(() => resolve(), time)
   })
