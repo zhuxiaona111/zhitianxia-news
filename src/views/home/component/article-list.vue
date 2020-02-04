@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { getArticles } from '@/api/articles'
 export default {
   name: 'article-list',
   data () {
@@ -52,21 +53,36 @@ export default {
       default: null
     }
   },
+  created () {
+
+  },
   methods: {
-    onLoad () {
-      console.log('开始加载数据')
-      setTimeout(() => {
-        if (this.articles.length === 50) {
-          this.finished = true
-        } else {
-          let arr = Array.from(
-            Array(10),
-            (value, index) => index + this.articles.length + 1
-          )
-          this.articles.push(...arr)
-          this.upLoading = false
-        }
-      }, 3000)
+
+    async onLoad () {
+      let data = await getArticles({ channel_id: this.channel_id, timestamp: this.timestamp || Date.now() })
+      console.log(data)
+      this.articles.push(...data.results)
+      // 关闭加载状态
+      this.upLoading = false
+      if (data.pre_timestamp) {
+        // 如果有
+        this.timestamp = data.pre_timestamp
+      } else {
+        this.finished = true // 没有数据了
+      }
+      // console.log('开始加载数据')
+      // setTimeout(() => {
+      //   if (this.articles.length === 50) {
+      //     this.finished = true
+      //   } else {
+      //     let arr = Array.from(
+      //       Array(10),
+      //       (value, index) => index + this.articles.length + 1
+      //     )
+      //     this.articles.push(...arr)
+      //     this.upLoading = false
+      //   }
+      // }, 3000)
     },
     onRefresh () {
       console.log('下拉刷新')
