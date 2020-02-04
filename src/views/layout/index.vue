@@ -5,7 +5,7 @@
     <div class="my-wrapper" :class="{noTop:!showNavBar}">
       <router-view></router-view>
     </div>
-    <van-tabbar v-model="active" route>
+    <van-tabbar active-color="#8f7eee" v-model="active" route>
       <van-tabbar-item to="/" icon="home-o">首页</van-tabbar-item>
       <van-tabbar-item to="/question" icon="chat-o">问答</van-tabbar-item>
       <van-tabbar-item to="/video" icon="video-o">视频</van-tabbar-item>
