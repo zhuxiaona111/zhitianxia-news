@@ -1,7 +1,7 @@
 <template>
   <div class="scroll-wrapper">
     <!-- 下拉刷新 -->
-    <van-pull-refresh v-model="downLading" @refresh="onRefresh" :success-text="refreshSuccessText">
+    <van-pull-refresh v-model="downLoading" @refresh="onRefresh" :success-text="refreshSuccessText">
       <!-- 实现上拉加载 -->
       <van-list v-model="upLoading" :finished="finished" @load="onLoad">
         <van-cell v-for="article in articles" :key="article.art_id.toString()" >
@@ -41,8 +41,8 @@ export default {
       upLoading: false,
       finished: false,
       articles: [],
-      downLading: false,
-      refreshSuccessText: '更新成功',
+      downLoading: false,
+      refreshSuccessText: '',
       timestamp: null
     }
   },
@@ -85,17 +85,34 @@ export default {
       //   }
       // }, 3000)
     },
-    onRefresh () {
-      console.log('下拉刷新')
-      setTimeout(() => {
-        let arr = Array.from(
-          Array(10),
-          (value, index) => index + this.articles.length + 1
-        )
-        this.articles.unshift(...arr)
-        this.downLading = false
-        this.refreshSuccessText = `更新了${arr.length}条数据`
-      }, 3000)
+    // 下拉刷新方法
+    async onRefresh () {
+      // 触发下拉刷新
+      // console.log('下拉刷新')
+      // setTimeout(() => {
+      //   let arr = Array.from(Array(10), (value, index) => '追加' + (index + 1))
+      //   this.articles.unshift(...arr) // 将数据添加到队首
+      //   this.downLoading = false // 关掉下拉状态
+      //   this.refreshSuccessText = `更新了${arr.length}条数据`
+      // }, 1000)
+      // 下拉刷新永远拉取的是最新的数据
+      const data = await getArticles({ channel_id: this.channel_id, timestamp: Date.now() })
+      console.log(data)
+      this.downLoading = false // 关掉下拉状态
+      // 有可能 最新没有推荐数据
+      if (data.results.length) {
+        // 如果长度大于0 表示有数据
+        this.articles = data.results // 将历史数据全都覆盖掉了
+        // 假如你之前 已经将 上拉加载设置成finished设置成true了
+        // 表示 我们还需要继续往下拉 就需要把原来的状态再次打开
+        this.finished = false
+        // 注意我们依然需要获取此次的历史事件戳
+        this.timestamp = data.pre_timestamp // 赋值历史时间戳 因为当你下拉刷新之后 上拉加载的时候 要用到这个历史事件戳
+        this.refreshSuccessText = `更新了${data.results.length}条数据`
+      } else {
+      //  如果没有数据更新  什么都不需要变化
+        this.refreshSuccessText = '已是最新数据'
+      }
     }
   }
 }
