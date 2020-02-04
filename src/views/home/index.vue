@@ -10,23 +10,29 @@
     <span class="bar_btn">
       <van-icon name="wap-nav" />
     </span>
+    <van-popup :style="{ width: '80%' }" v-model="showMoreAction">
+      <more-action ></more-action>
+    </van-popup>
   </div>
 </template>
 
 <script>
 import ArticleList from './component/articlelist'
 import { getChannel } from '@/api/channel'
+import MoreAction from './component/moreAction'
 export default {
   name: 'home',
   components: {
-    ArticleList
+    ArticleList,
+    MoreAction
   },
   data () {
     return {
       activeIndex: '',
       upLoading: false,
       finished: false,
-      channels: []
+      channels: [],
+      showMoreAction: true
     }
   },
   methods: {
