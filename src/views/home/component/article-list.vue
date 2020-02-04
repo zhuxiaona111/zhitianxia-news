@@ -41,7 +41,15 @@ export default {
       finished: false,
       articles: [],
       downLading: false,
-      refreshSuccessText: '更新成功'
+      refreshSuccessText: '更新成功',
+      timestamp: null
+    }
+  },
+  props: {
+    channel_id: {
+      required: true,
+      type: Number,
+      default: null
     }
   },
   methods: {

@@ -4,7 +4,7 @@
       <!-- 导航菜单 -->
       <van-tab v-for="channel in channels" :title="channel.name" :key="channel.id">
         <!-- 菜单下面的内容 -->
-        <article-list></article-list>
+        <article-list :channel_id="channel.id"></article-list>
       </van-tab>
     </van-tabs>
     <span class="bar_btn">
