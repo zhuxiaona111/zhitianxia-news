@@ -25,13 +25,18 @@
         <van-button round size="small" plain icon="delete">不喜欢</van-button>
       </div>
     </div>
+    <comment></comment>
   </div>
 </template>
 
 <script>
 import { getArticlesDetial } from '@/api/articles'
+import Comment from './component/comment'
 export default {
   name: 'articles',
+  components: {
+    Comment
+  },
   data () {
     return {
       article: []
@@ -41,7 +46,7 @@ export default {
     async getArticlesDetial () {
       const { articleId } = this.$route.query
       this.article = await getArticlesDetial(articleId)
-      console.log(this.article)
+      // console.log(this.article)
     }
   },
   created () {
