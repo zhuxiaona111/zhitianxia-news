@@ -22,3 +22,9 @@ export function reportArt (data) {
     data
   })
 }
+// 获取文章详情
+export function getArticlesDetial (articleId) {
+  return request({
+    url: `/articles/${articleId}`
+  })
+}
