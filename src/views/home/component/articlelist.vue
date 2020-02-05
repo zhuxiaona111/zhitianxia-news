@@ -4,7 +4,11 @@
     <van-pull-refresh v-model="downLoading" @refresh="onRefresh" :success-text="refreshSuccessText">
       <!-- 实现上拉加载 -->
       <van-list v-model="upLoading" :finished="finished" @load="onLoad">
-        <van-cell v-for="article in articles" :key="article.art_id.toString()">
+        <van-cell
+          :to="`/articles?articleId=${article.art_id.toString()}`"
+          v-for="article in articles"
+          :key="article.art_id.toString()"
+        >
           <div class="article_item">
             <h3 class="van-ellipsis">{{article.title}}</h3>
             <!-- 三张图模式 -->
@@ -21,7 +25,11 @@
               <span>{{ article.aut_name }}</span>
               <span>{{ article.comm_count }}评论</span>
               <span>{{ article.pubdate | relTime }}</span>
-              <span class="close" v-if="user.token" @click="$emit('openAction',article.art_id.toString())">
+              <span
+                class="close"
+                v-if="user.token"
+                @click="$emit('openAction',article.art_id.toString())"
+              >
                 <van-icon name="cross"></van-icon>
               </span>
             </div>
@@ -61,7 +69,9 @@ export default {
   created () {
     eventBus.$on('delArticle', (articleId, channelId) => {
       if (this.channel_id === channelId) {
-        const index = this.articles.findIndex(item => item.art_id.toString() === articleId)
+        const index = this.articles.findIndex(
+          item => item.art_id.toString() === articleId
+        )
         if (index > -1) {
           this.articles.splice(index, 1)
         }
