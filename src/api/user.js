@@ -6,3 +6,18 @@ export function login (data) {
     method: 'post'
   })
 }
+// 用户关注
+export function followUser (data) {
+  return request({
+    url: '/user/followings',
+    type: 'post',
+    data
+  })
+}
+// 取消关注
+export function unFollowUser (target) {
+  return request({
+    url: `/user/followings/${target}`,
+    method: 'delete'
+  })
+}

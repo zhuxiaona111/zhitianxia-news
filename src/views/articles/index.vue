@@ -15,7 +15,7 @@
           <p class="name">{{article.aut_name}}</p>
           <p class="time">{{article.pubdate | relTime}}</p>
         </div>
-        <van-button round size="small" color="linear-gradient(to right, #4bb0ff, #6149f6)">+ 关注</van-button>
+        <van-button @click="follow()" round size="small" color="linear-gradient(to right, #4bb0ff, #6149f6)">{{article.is_followed?'已关注':'+ 关注'}}</van-button>
       </div>
       <div class="content">
         <p v-html="article.content"></p>
@@ -31,6 +31,7 @@
 
 <script>
 import { getArticlesDetial } from '@/api/articles'
+import { followUser, unFollowUser } from '@/api/user'
 import Comment from './component/comment'
 export default {
   name: 'articles',
@@ -43,6 +44,19 @@ export default {
     }
   },
   methods: {
+    async follow () {
+      try {
+        if (this.article.is_followed) {
+          await unFollowUser(this.article.aut_id)
+        } else {
+          await followUser({ target: this.article.aut_id })
+        }
+        this.article.is_followed = !this.article.is_followed
+        this.$gnotify({ type: 'success', message: '操作成功' })
+      } catch (error) {
+        this.$gnotify({ type: 'danger', message: '操作失败' })
+      }
+    },
     async getArticlesDetial () {
       const { articleId } = this.$route.query
       this.article = await getArticlesDetial(articleId)
