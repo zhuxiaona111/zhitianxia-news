@@ -3,14 +3,14 @@ import VueRouter from 'vue-router'
 const Layout = () => import ('@/views/layout')// 布局组件
 const Home = () => import ('@/views/home')// 主页组件
 const Question = () => import ('@/views/question')
-const Video = () => import ('@/views/video')
+const Videoes = () => import ('@/views/video')
 const User = () => import ('@/views/user')
 const Profile = () => import ('@/views/user/profile')
 const Chat = () => import ('@/views/user/chat')
 const Login = () => import ('@/views/login')
 const Search = () => import ('@/views/search')
 const Result = () => import ('@/views/search/result')
-const Article = () => import ('@/views/article')
+const Articles = () => import ('@/views/articles')
 Vue.use(VueRouter)
 
 const routes = [
@@ -26,7 +26,7 @@ const routes = [
         component: Question
       },
       { path: '/video',
-        component: Video
+        component: Videoes
       },
       { path: '/user',
         component: User
@@ -55,8 +55,8 @@ const routes = [
     component: Result
   },
   {
-    path: '/article',
-    component: Article
+    path: '/articles',
+    component: Articles
   }
 
   // {

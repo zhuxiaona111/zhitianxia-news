@@ -11,7 +11,7 @@
       <van-icon name="wap-nav" />
     </span>
     <van-popup :style="{ width: '80%' }" v-model="showMoreAction">
-      <more-action @dislike="dislikeOrReport" @report="dislikeOrReport($event,'report')"></more-action>
+      <more-action @dislike="dislikeOrReport($event,'dislike')" @report="dislikeOrReport($event,'report')"></more-action>
     </van-popup>
   </div>
 </template>
