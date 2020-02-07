@@ -99,7 +99,7 @@ export default {
     },
     showDate () {
       this.currentDate = new Date(this.user.birthday)
-      console.log(this.currentDate)
+      // console.log(this.currentDate)
       this.showBirthday = true
     },
     async getUserProfile () {
