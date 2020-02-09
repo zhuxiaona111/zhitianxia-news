@@ -35,3 +35,11 @@ export function updateImg (data) {
     data
   })
 }
+// 保存修改内容
+export function saveUserInfo (data) {
+  return request({
+    url: '/user/profile',
+    method: 'patch',
+    data
+  })
+}

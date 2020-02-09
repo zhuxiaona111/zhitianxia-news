@@ -48,7 +48,7 @@ export default {
   data () {
     return {
       userForm: {
-        mobile: '18810086387',
+        mobile: '13999999999',
         code: '246810'
       },
       errorMsg: {
