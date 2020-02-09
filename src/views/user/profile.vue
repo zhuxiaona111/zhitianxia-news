@@ -15,13 +15,15 @@
       </van-cell>
       <van-cell @click="showName=true" is-link title="名称" :value="user.name" />
       <van-cell @click="showGender=true" is-link title="性别" :value="user.gender ===0?'男':'女'" />
-      <van-cell @click="showBirthday=true" is-link title="生日" :value="user.birthday" />
+      <van-cell @click="showDate" is-link title="生日" :value="user.birthday" />
     </van-cell-group>
     <!-- 头像弹层 -->
     <van-popup v-model="showPhoto" style="width:80%">
-      <van-cell is-link title="本地相册"></van-cell>
+      <van-cell @click="openChangeFile" is-link title="本地相册"></van-cell>
       <van-cell is-link title="拍照"></van-cell>
     </van-popup>
+     <input ref="file" @change="upload()" type="file" style="display:none" />
+
     <!-- 昵称弹层 -->
     <van-popup round :close-on-click-overlay="false" v-model="showName" style="width:80%">
       <van-field
@@ -54,7 +56,7 @@
 </template>
 
 <script>
-import { getUserProfile } from '@/api/user'
+import { getUserProfile, updateImg } from '@/api/user'
 import dayjs from 'dayjs'
 export default {
   name: 'profile',
@@ -99,14 +101,24 @@ export default {
     },
     showDate () {
       this.currentDate = new Date(this.user.birthday)
-      // console.log(this.currentDate)
       this.showBirthday = true
     },
     async getUserProfile () {
       let data = await getUserProfile()
       // console.log(data)
       this.user = data
+    },
+    openChangeFile () {
+      this.$refs.file.click()
+    },
+    async upload () {
+      let data = new FormData()
+      data.append('photo', this.$refs.file.files[0])
+      let result = await updateImg(data)
+      this.user.photo = result.photo
+      this.showPhoto = false
     }
+
   }
 }
 </script>

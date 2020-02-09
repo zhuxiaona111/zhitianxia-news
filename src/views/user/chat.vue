@@ -13,7 +13,7 @@
     </div>
     <div class="reply-container van-hairline--top">
       <van-field v-model="value" placeholder="说点什么...">
-        <van-loading v-if="commentLoading" slot="button" type="spinner" size="16px"></van-loading>
+        <van-loading v-if="Loading" slot="button" type="spinner" size="16px"></van-loading>
         <span v-else @click="send()" slot="button" style="font-size:12px;color:#999">提交</span>
       </van-field>
     </div>
@@ -21,8 +21,16 @@
 </template>
 
 <script>
+// import XZImg from '@assets'
 export default {
-  name: 'chat'
+  name: 'chat',
+  data () {
+    return {
+      value: '',
+      loading: false
+      // XZImg
+    }
+  }
 }
 </script>
 
