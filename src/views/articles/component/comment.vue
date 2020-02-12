@@ -20,19 +20,19 @@
           <p>{{ comment.content }}</p>
           <p>
             <span class="time">{{ comment.pubdate | relTime }}</span>&nbsp;
-            <van-tag plain @click="openReply(item.com_id)">{{ comment.reply_count }} 回复</van-tag>
+            <van-tag plain @click="openReply(comment.com_id)">{{ comment.reply_count }} 回复</van-tag>
           </p>
         </div>
       </div>
     </van-list>
      <!-- 回复 -->
-    <van-action-sheet v-model="showReply" class="reply_dailog" title="回复评论">
-      <van-list @load="getReply()" :immediate-check="false" v-model="reply.loading" :finished="reply.finished" finished-text="没有更多了">
+    <van-action-sheet :round="false"  v-model="showReply" class="reply_dailog" title="回复评论">
+      <van-list @load="getReply" :immediate-check="false" v-model="reply.loading" :finished="reply.finished" finished-text="没有更多了">
         <div class="item van-hairline--bottom van-hairline--top" v-for="item in reply.list" :key="item.com_id.toString()">
           <van-image round width="1rem" height="1rem" fit="fill" :src="item.aut_photo" />
           <div class="info">
             <p><span class="name">{{item.aut_name}}</span></p>
-            <p>{{item.contnet}}</p>
+            <p>{{item.content}}</p>
             <p><span class="time">{{item.pubdate | relTime}}</span></p>
           </div>
         </div>
@@ -84,18 +84,19 @@ export default {
         this.offset = data.last_id
       }
     },
-    openReply (id) {
+    openReply (commentId) {
       this.showReply = true
-      this.reply.commentId = id
+      this.reply.commentId = commentId
       this.reply.finished = false
       this.reply.loading = true
       this.reply.list = []
       this.reply.offset = null
-      this.getReplys()
+      this.getReply()
     },
     async getReply () {
-      const data = await getComments(this.reply.commentId.toString(), 'c', this.reply.offset)
-      this.reply.list.push(...data.results)
+      const data = await getComments({ source: this.reply.commentId.toString(), type: 'c', offset: this.reply.offset })
+      console.log(data)
+      this.reply.list.unshift(...data.results)
       this.reply.loading = false
       if (data.end_id < data.last_id) {
         this.reply.offset = data.last_id
