@@ -26,7 +26,7 @@
       </div>
     </van-list>
      <!-- 回复 -->
-    <van-action-sheet :round="false"  v-model="showReply" class="reply_dailog" title="回复评论">
+    <van-action-sheet @closed="reply.commentId=null" :round="false"  v-model="showReply" class="reply_dailog" title="回复评论">
       <van-list @load="getReply" :immediate-check="false" v-model="reply.loading" :finished="reply.finished" finished-text="没有更多了">
         <div class="item van-hairline--bottom van-hairline--top" v-for="item in reply.list" :key="item.com_id.toString()">
           <van-image round width="1rem" height="1rem" fit="fill" :src="item.aut_photo" />
@@ -41,14 +41,14 @@
     <div class="reply-container van-hairline--top">
       <van-field v-model="value" placeholder="写评论...">
         <van-loading v-if="submiting" slot="button" type="spinner" size="16px"></van-loading>
-        <span class="submit" v-else slot="button">提交</span>
+        <span @click="submit()" class="submit" v-else slot="button">提交</span>
       </van-field>
     </div>
   </div>
 </template>
 
 <script>
-import { getComments } from '@/api/articles'
+import { getComments, addComments } from '@/api/articles'
 export default {
   name: 'comment',
   data () {
@@ -95,7 +95,7 @@ export default {
     },
     async getReply () {
       const data = await getComments({ source: this.reply.commentId.toString(), type: 'c', offset: this.reply.offset })
-      console.log(data)
+      // console.log(data)
       this.reply.list.unshift(...data.results)
       this.reply.loading = false
       if (data.end_id < data.last_id) {
@@ -103,6 +103,26 @@ export default {
       } else {
         this.reply.finished = true
       }
+    },
+    async submit () {
+      if (!this.value) return false
+      this.submiting = true
+      await this.$sleep()
+      try {
+        const data = await addComments({ target: this.reply.commentId ? this.reply.commentId.toString() : this.$$route.query.articleId, content: this.value, art_id: this.reply.commentId ? this.$route.query.articleId : null })
+        // console.log(data)
+        if (this.reply.commentId) {
+          this.reply.list.unshift(data.new_obj)
+          const comment = this.comments.find(item => item.com_id.toString() === this.reply.commentId.toString())
+          comment && comment.reply_count++
+        } else {
+          this.comments.unshift(data.new_obj)
+        }
+        this.value = ''
+      } catch (error) {
+        this.$gnotify({ type: 'danger', message: '评论失败' })
+      }
+      this.submiting = false
     }
   }
 }
