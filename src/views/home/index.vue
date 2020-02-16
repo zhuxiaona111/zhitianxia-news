@@ -11,11 +11,15 @@
       <van-icon name="wap-nav" />
     </span>
     <van-popup :style="{ width: '80%' }" v-model="showMoreAction">
-      <more-action @dislike="dislikeOrReport($event,'dislike')" @report="dislikeOrReport($event,'report')"></more-action>
+      <more-action
+        @dislike="dislikeOrReport($event,'dislike')"
+        @report="dislikeOrReport($event,'report')"
+      ></more-action>
     </van-popup>
     <van-action-sheet :round="false" title="编辑频道" v-model="showChannelEdit">
-      <channel-edit></channel-edit>
- </van-action-sheet><channel-edit v-model="showChannelEdit"></channel-edit>
+      <channel-edit :channels="channels"></channel-edit>
+    </van-action-sheet>
+    <channel-edit v-model="showChannelEdit"></channel-edit>
   </div>
 </template>
 
@@ -25,7 +29,7 @@ import { getChannel } from '@/api/channel'
 import MoreAction from './component/moreAction'
 import { dislikeArt, reportArt } from '@/api/articles'
 import eventBus from '@/utils/eventBus'
-import ChannelEdit from './channel-edit'
+import ChannelEdit from './component/channel-edit'
 export default {
   name: 'home',
   components: {
@@ -41,7 +45,7 @@ export default {
       channels: [],
       showMoreAction: false,
       articleId: null,
-      showChannelEdit: false// 是否显示编辑频道
+      showChannelEdit: false // 是否显示编辑频道
     }
   },
   methods: {
@@ -62,12 +66,17 @@ export default {
           operatetype === 'dislike'
             ? await dislikeArt({
               target: this.articleId
-            }) : await reportArt({
+            })
+            : await reportArt({
               target: this.articleId,
               type: params
             })
           this.$gnotify({ type: 'success', message: '操作成功' })
-          eventBus.$emit('delArticle', this.articleId, this.channels[this.activeIndex].id)
+          eventBus.$emit(
+            'delArticle',
+            this.articleId,
+            this.channels[this.activeIndex].id
+          )
           this.showMoreAction = false
         }
       } catch (error) {
@@ -141,7 +150,7 @@ export default {
   max-height: 100%;
   height: 100%;
   .van-action-sheet__header {
-    background: #3296fa;
+    background: linear-gradient(to right, #76baee, #b72bf8);
     color: #fff;
     .van-icon-close {
       color: #fff;
