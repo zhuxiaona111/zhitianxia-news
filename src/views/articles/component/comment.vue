@@ -104,12 +104,15 @@ export default {
         this.reply.finished = true
       }
     },
+    // 对文章进行评论或对评论进行评论
+    // 你这个函数shit是提交函数，你这还没提交呢
     async submit () {
+      // 判断文本框中的值为空时
       if (!this.value) return false
       this.submiting = true
       await this.$sleep()
       try {
-        const data = await addComments({ target: this.reply.commentId ? this.reply.commentId.toString() : this.$$route.query.articleId, content: this.value, art_id: this.reply.commentId ? this.$route.query.articleId : null })
+        const data = await addComments({ target: this.reply.commentId ? this.reply.commentId.toString() : this.$route.query.articleId, content: this.value, art_id: this.reply.commentId ? this.$route.query.articleId : null })
         // console.log(data)
         if (this.reply.commentId) {
           this.reply.list.unshift(data.new_obj)
@@ -182,7 +185,7 @@ export default {
   overflow: hidden;
   flex-direction: column;
   .van-action-sheet__header {
-    background: #3296fa;
+    background: linear-gradient(to right, #76baee, #b72bf8);
     color: #fff;
     .van-icon-close {
       color: #fff;

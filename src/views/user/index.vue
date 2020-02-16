@@ -107,8 +107,8 @@ export default {
         margin-left: 10px;
       }
       .van-tag {
-        background: #fff;
-        color: linear-gradient(to right, #76baee, #b72bf8);
+        background: transparent;
+        color: #fff;
       }
     }
     p{

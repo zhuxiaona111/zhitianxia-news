@@ -7,12 +7,15 @@
         <article-list :channel_id="channel.id" @openAction="openAction"></article-list>
       </van-tab>
     </van-tabs>
-    <span class="bar_btn">
+    <span class="bar_btn" @click="showChannelEdit =true">
       <van-icon name="wap-nav" />
     </span>
     <van-popup :style="{ width: '80%' }" v-model="showMoreAction">
       <more-action @dislike="dislikeOrReport($event,'dislike')" @report="dislikeOrReport($event,'report')"></more-action>
     </van-popup>
+    <van-action-sheet :round="false" title="编辑频道" v-model="showChannelEdit">
+      <channel-edit></channel-edit>
+ </van-action-sheet><channel-edit v-model="showChannelEdit"></channel-edit>
   </div>
 </template>
 
@@ -22,11 +25,13 @@ import { getChannel } from '@/api/channel'
 import MoreAction from './component/moreAction'
 import { dislikeArt, reportArt } from '@/api/articles'
 import eventBus from '@/utils/eventBus'
+import ChannelEdit from './channel-edit'
 export default {
   name: 'home',
   components: {
     ArticleList,
-    MoreAction
+    MoreAction,
+    ChannelEdit
   },
   data () {
     return {
@@ -35,7 +40,8 @@ export default {
       finished: false,
       channels: [],
       showMoreAction: false,
-      articleId: null
+      articleId: null,
+      showChannelEdit: false// 是否显示编辑频道
     }
   },
   methods: {
@@ -128,6 +134,17 @@ export default {
     z-index: 1000;
     &::before {
       font-size: 20px;
+    }
+  }
+}
+.van-action-sheet {
+  max-height: 100%;
+  height: 100%;
+  .van-action-sheet__header {
+    background: #3296fa;
+    color: #fff;
+    .van-icon-close {
+      color: #fff;
     }
   }
 }
