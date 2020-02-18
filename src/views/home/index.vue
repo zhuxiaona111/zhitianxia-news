@@ -17,7 +17,7 @@
       ></more-action>
     </van-popup>
     <van-action-sheet :round="false" title="编辑频道" v-model="showChannelEdit">
-      <channel-edit :channels="channels"></channel-edit>
+      <channel-edit @selectChannel="selectChannel" :channels="channels"></channel-edit>
     </van-action-sheet>
     <channel-edit v-model="showChannelEdit"></channel-edit>
   </div>
@@ -49,6 +49,12 @@ export default {
     }
   },
   methods: {
+    // 点击频道跳转到对应频道
+    selectChannel (id) {
+      let index = this.channels.findIndex(item => item.id === id)
+      this.activeIndex = index
+      this.showChannelEdit = false
+    },
     async getChannel () {
       const data = await getChannel()
       // console.log(data)
