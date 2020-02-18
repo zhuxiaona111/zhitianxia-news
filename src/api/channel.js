@@ -5,3 +5,9 @@ export function getChannel () {
     url: '/user/channels'
   })
 }
+// 渲染可选频道
+export function getMyChannel () {
+  return request({
+    url: '/channels'
+  })
+}

@@ -17,8 +17,8 @@
     <div class="channel">
       <div class="tit">可选频道：</div>
       <van-grid class="van-hairline--left">
-        <van-grid-item v-for="index in 8" :key="index">
-          <span class="f12">频道{{index}}</span>
+        <van-grid-item v-for="channel in optionChannels" :key="channel.id">
+          <span class="f12">{{channel.name}}</span>
           <van-icon class="btn" name="plus"></van-icon>
         </van-grid-item>
       </van-grid>
@@ -27,10 +27,12 @@
 </template>
 
 <script>
+import { getMyChannel } from '@/api/channel'
 export default {
   data () {
     return {
-      editing: false
+      editing: false,
+      allChannels: []
 
     }
   },
@@ -42,6 +44,18 @@ export default {
     }
   },
   methods: {
+    async getMyChannel () {
+      const data = await getMyChannel()
+      this.allChannels = data.channels
+    }
+  },
+  computed: {
+    optionChannels () {
+      return this.allChannels.filter(item => !this.channels.some(o => o.id === item.id))
+    }
+  },
+  created () {
+    this.getMyChannel()
   }
 }
 </script>
