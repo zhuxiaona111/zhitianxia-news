@@ -9,7 +9,7 @@
       </div>
       <van-grid class="van-hairline--left">
         <van-grid-item v-for="(channel,i) in channels" :key="channel.id">
-          <span @click="$emit('selectChannel',channel.id)" class="f12">{{channel.name}}</span>
+          <span :class="{red:i===activeIndex}" @click="$emit('selectChannel',channel.id)" class="f12">{{channel.name}}</span>
           <van-icon v-if="i!=0" v-show="editing" class="btn" name="cross"></van-icon>
         </van-grid-item>
       </van-grid>
@@ -18,7 +18,7 @@
       <div class="tit">可选频道：</div>
       <van-grid class="van-hairline--left">
         <van-grid-item v-for="channel in optionChannels" :key="channel.id">
-          <span class="f12">{{channel.name}}</span>
+          <span class="f12" @click="$emit('selectChannel',item.id)">{{channel.name}}</span>
           <van-icon class="btn" name="plus"></van-icon>
         </van-grid-item>
       </van-grid>
@@ -29,6 +29,15 @@
 <script>
 import { getMyChannel } from '@/api/channel'
 export default {
+  props: {
+    channels: {
+      type: Array,
+      default: () => []
+    },
+    activeIndex: {
+      type: Number
+    }
+  },
   data () {
     return {
       editing: false,
@@ -36,15 +45,9 @@ export default {
 
     }
   },
-  props: {
-    channels: {
-      required: true,
-      type: Array,
-      default: () => []
-    }
-  },
   methods: {
     async getMyChannel () {
+      // console.log(this.channels)
       const data = await getMyChannel()
       this.allChannels = data.channels
     }
@@ -56,6 +59,7 @@ export default {
   },
   created () {
     this.getMyChannel()
+    // console.log(this.channels)
   }
 }
 </script>

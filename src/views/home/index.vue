@@ -7,7 +7,7 @@
         <article-list :channel_id="channel.id" @openAction="openAction"></article-list>
       </van-tab>
     </van-tabs>
-    <span class="bar_btn" @click="showChannelEdit =true">
+    <span class="bar_btn" @click="showChannelEdit = true">
       <van-icon name="wap-nav" />
     </span>
     <van-popup :style="{ width: '80%' }" v-model="showMoreAction">
@@ -17,7 +17,7 @@
       ></more-action>
     </van-popup>
     <van-action-sheet :round="false" title="编辑频道" v-model="showChannelEdit">
-      <channel-edit @selectChannel="selectChannel" :channels="channels"></channel-edit>
+      <channel-edit :activeIndex="activeIndex" :channels="channels" @selectChannel="selectChannel"></channel-edit>
     </van-action-sheet>
     <channel-edit v-model="showChannelEdit"></channel-edit>
   </div>
